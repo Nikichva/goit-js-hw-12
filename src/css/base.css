@@ -1,0 +1,140 @@
+:root {
+  /* font-family: Inter, Avenir, Helvetica, Arial, sans-serif; */
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color: #242424;
+  background-color: rgba(255, 255, 255, 0.87);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+}
+
+main {
+  flex-grow: 1;
+}
+main:has(.back-link) {
+  text-align: center;
+}
+
+a {
+  font-weight: 500;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+.gallery {
+  padding-top: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  list-style: none;
+  gap: 10px;
+}
+
+.gallery-item {
+  border: 1px solid black;
+}
+
+.gallery-image {
+  width: 360px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+}
+
+input {
+  width: 272px;
+  height: 40px;
+  font-size: 16px;
+  padding-left: 15px;
+  border-radius: 10px;
+  border: 1px solid #808080;
+}
+
+input:hover {
+  border: 1px solid #000000;
+}
+
+input:active {
+  border: 1px solid #4e75ff;
+}
+
+button {
+  width: 75px;
+  height: 42px;
+  border: none;
+  border-radius: 10px;
+  background-color: #4e75ff;
+  color: #ffffff;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #6c8cff;
+}
+
+.img-data {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 5px 10px 5px;
+  gap: 10px;
+}
+
+.data-values {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: 600;
+}
+
+.data-values p {
+  font-weight: normal;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #fff;
+  border-bottom-color: #ff3d00;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
