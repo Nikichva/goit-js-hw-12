@@ -20,6 +20,7 @@ const lightbox = new SimpleLightbox('.gallery a', {
 let page = 1;
 // Controls the number of images in the gallery
 let perPage = 40;
+let inputField = '';
 
 form.addEventListener('submit', async evt => {
   try {
@@ -28,7 +29,7 @@ form.addEventListener('submit', async evt => {
     page = 1;
     evt.preventDefault();
     gallery.insertAdjacentHTML('beforeend', '<span class="loader"></span>');
-    const inputField = form.elements.searchInput.value.trim();
+    inputField = form.elements.searchInput.value.trim();
 
     if (inputField.length === 0) {
       gallery.innerHTML = '';
@@ -37,8 +38,8 @@ form.addEventListener('submit', async evt => {
       });
     }
 
-    const images = await fetchImages(inputField);
-    const { hits } = images;
+    const images = await fetchImages();
+    const { hits, totalHits } = images;
 
     if (hits.length === 0) {
       document.querySelector('.loader').remove();
@@ -49,11 +50,20 @@ form.addEventListener('submit', async evt => {
     }
 
     renderImages(hits);
+
+    if (totalHits <= perPage) {
+      bottomOfGallery.innerHTML = '';
+      return iziToast.info({
+        position: 'topRight',
+        message: "We're sorry, but you've reached the end of search results.",
+      });
+    }
+
     bottomOfGallery.insertAdjacentHTML(
       'beforeend',
       '<button name="loadMoreBtn">Load more</button>'
     );
-    return addMoreImages(inputField);
+    return addMoreImages();
   } catch (error) {
     gallery.innerHTML = '';
     iziToast.error({ message: `Request failed: ${error.message}` });
@@ -62,7 +72,7 @@ form.addEventListener('submit', async evt => {
   }
 });
 
-async function fetchImages(inputField) {
+async function fetchImages() {
   const response = await axios.get(`https://pixabay.com/api/`, {
     params: {
       key: myApiKey,
@@ -111,7 +121,7 @@ function renderImages(hits) {
   lightbox.refresh();
 }
 
-async function addMoreImages(inputField) {
+async function addMoreImages() {
   const loadMoreBtn = document.querySelector('button[name="loadMoreBtn"]');
 
   loadMoreBtn.addEventListener('click', async () => {
@@ -122,10 +132,13 @@ async function addMoreImages(inputField) {
       );
       page += 1;
 
-      const images = await fetchImages(inputField);
+      const images = await fetchImages();
       const { hits, totalHits } = images;
+
+      renderImages(hits);
+
       const totalPages = Math.ceil(totalHits / perPage);
-      if (page > totalPages) {
+      if (page >= totalPages) {
         bottomOfGallery.innerHTML = '';
         return iziToast.info({
           position: 'topRight',
@@ -133,12 +146,10 @@ async function addMoreImages(inputField) {
         });
       }
 
-      renderImages(hits);
-
       let elem = document.querySelector('.gallery-item');
       let rect = elem.getBoundingClientRect();
-      const { width } = rect;
-      window.scrollBy({ top: width * 2, behavior: 'smooth' });
+      const { height } = rect;
+      window.scrollBy({ top: height * 2, behavior: 'smooth' });
     } catch (error) {
       gallery.innerHTML = '';
       iziToast.error({ message: `Request failed: ${error.message}` });
