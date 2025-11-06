@@ -16,21 +16,6 @@
   -webkit-text-size-adjust: 100%;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
-  min-width: 100vw;
-  min-height: 100vh;
-  margin: 0;
-}
-
-main {
-  flex-grow: 1;
-}
-main:has(.back-link) {
-  text-align: center;
-}
-
 a {
   font-weight: 500;
   text-decoration: inherit;
@@ -87,13 +72,15 @@ input:active {
 }
 
 button {
-  width: 75px;
-  height: 42px;
+  min-width: 75px;
+  min-height: 42px;
   border: none;
   border-radius: 10px;
+  padding: 10px;
   background-color: #4e75ff;
   color: #ffffff;
   font-size: 16px;
+  margin-bottom: 10px;
 }
 
 button:hover {
@@ -137,4 +124,12 @@ button:hover {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.bottomOfGallery {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px 0 15px 0;
+  flex-direction: column;
 }
